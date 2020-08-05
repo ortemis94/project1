@@ -224,6 +224,7 @@ public class EmployeeMngCtrl implements InterEmployeeMngCtrl {
 	} // registerEmployee 메서드 end
 
 
+	// 회원 가입시 중복 아이디 체크 메서드
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean isUseID(String id) {
@@ -244,7 +245,7 @@ public class EmployeeMngCtrl implements InterEmployeeMngCtrl {
 
 		} // if문 end
 		return flag;
-	}
+	} // 회원 가입시 중복 아이디 체크 메서드 end
 
 
 	// 로그인 메서드
@@ -308,10 +309,10 @@ public class EmployeeMngCtrl implements InterEmployeeMngCtrl {
 					showAllEmployee();
 					break;
 				case "4":
-					emplRetrieving(sc, loginEmp);
+					searchEmployeeMenu(sc, loginEmp);
 					break;
 				case "5":
-					
+					deleteEmployee(loginEmp, sc);
 					break;
 				case "6":
 					return;
@@ -440,10 +441,73 @@ public class EmployeeMngCtrl implements InterEmployeeMngCtrl {
 
 	} // 사원관리 메뉴 중 모든 사원 정보보기 메서드 end
 
+	// 사원관리 메뉴 중 사원사직시키기 메서드 (사장님으로 로그인 했을때만 가능하도록.) 
+	@SuppressWarnings("unchecked")
+	@Override
+	public void deleteEmployee(EmployeeDTO loginEmp, Scanner sc) {
+		
+		if (!loginEmp.getPosition().equals("사장")) { // 로그인한 계정의 직급이 사장이 아니면
+			System.out.println("~~~ 권한이 없습니다.!!!");
+			return;
+		}else {										 // 로그인한 계정의 직급이 사장이면	
+			showAllEmployee();
+			String name = null;
+			do {
+				System.out.print("\n▶ 사직시킬 직원 이름: ");
+				name = sc.nextLine(); 
+				if (name.trim().isEmpty()) {
+					System.out.println("사직시킬 직원 이름을 입력하세요!!!");
+				}else {
+					break;
+				}
+				
+			}while(true);
+			
+			do {	
+				System.out.println("정말 사직시키겠습니까?? [Y/N]:");
+				String yesOrNo = sc.nextLine();
+				
+				if (yesOrNo.equalsIgnoreCase("y")) {
+					List<EmployeeDTO> emplList = (ArrayList<EmployeeDTO>)serial.getobjectFromFile(EMPLLISTFILENAME);
+					
+					boolean exist = false; // 검색한 사원이 있는지 없는지를 알려주는 변수
+					
+					for (EmployeeDTO empl : emplList) {
+						if (empl.getName().equals(name)) { // 검색한 사원이 사원 리스트에 있었을 때
+							emplList.remove(empl); // 검색한 사원 계정(객체) 삭제
+							exist = true; // 검색한 사원이 존재했으므로 true로 바꿔줌.
+							break; // for문을 탈출
+						}
+					} // for문 end
+					
+					if (!exist) {
+						System.out.println("검색한 " + name + " 사원은 존재하지 않습니다.");
+						break; // 사직 여부를 묻는 while문을 탈출
+					}
+					
+					int n = serial.objectToFileSave(emplList, EMPLLISTFILENAME); // 변경된 리스트를 파일에 저장
+					if (n == 1) { // 정상 저장 완료 시
+						System.out.println(">>> " + name + " 사원 사직 완료 <<<");
+					}else {		  // 정상 저장 실패 시 
+						System.out.println(">>> " + name + " 사원 사직 실패 <<<");
+					}
+					break; // 사직 여부를 묻는 while문을 탈출
+				}else if (yesOrNo.equalsIgnoreCase("N")) {
+					System.out.println(">>> 사원 사직시키기를 취소하셨습니다. <<<\n");
+					break; // 사직 여부를 묻는 while문을 탈출
+				}else {
+					System.out.println("~~~ Y 또는 N을 입력하셔야합니다.\n");	// 다시 변경 여부를 입력하도록 돌아감.
+				}
+			}while(true);
+			
+		} // else문(로그인 계정이 사장일 때) end
+	} // 사원관리 메뉴 중 사원사직시키기 메서드 end
+	
+	
 	// 사원관리 메뉴 중 4번 사원검색 메뉴 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void emplRetrieving(Scanner sc, EmployeeDTO loginEmp) {
+	public void searchEmployeeMenu(Scanner sc, EmployeeDTO loginEmp) {
 
 
 		if (loginEmp == null) { // 만일 로그인 한 계정이 없으면 
@@ -460,19 +524,19 @@ public class EmployeeMngCtrl implements InterEmployeeMngCtrl {
 
 				switch (choice) {
 				case "1":
-					nameRetr(sc, emplList);
+					searchEmployeeByName(sc, emplList);
 					break;
 				case "2":
-					ageRetr(sc, emplList);
+					searchEmployeeByAge(sc, emplList);
 					break;
 				case "3":
-					posiRetr(sc, emplList);
+					searchEmployeeByPosition(sc, emplList);
 					break;
 				case "4":
-					salaryRetr(sc, emplList);
+					searchEmployeeBySalary(sc, emplList);
 					break;
 				case "5":
-					dNameRetr(sc, emplList);
+					searchEmployeeByDname(sc, emplList);
 					break;
 				case "6": // 6을 선택하면 while조건문에서 빠져나가짐.
 					break;
@@ -489,7 +553,7 @@ public class EmployeeMngCtrl implements InterEmployeeMngCtrl {
 
 	// 사원 검색 메뉴 중 사원명으로 검색 메서드
 	@Override
-	public void nameRetr(Scanner sc, List<EmployeeDTO> emplList) {
+	public void searchEmployeeByName(Scanner sc, List<EmployeeDTO> emplList) {
 
 		String name = null;
 		do {
@@ -521,7 +585,7 @@ public class EmployeeMngCtrl implements InterEmployeeMngCtrl {
 
 	// 사원 검색 메뉴 중 연령대로 검색 메서드
 	@Override
-	public void ageRetr(Scanner sc, List<EmployeeDTO> emplList) {
+	public void searchEmployeeByAge(Scanner sc, List<EmployeeDTO> emplList) {
 
 
 		int nAge = 0;
@@ -574,7 +638,7 @@ public class EmployeeMngCtrl implements InterEmployeeMngCtrl {
 
 	// 사원 검색 메뉴 중 직급으로 검색 메서드
 	@Override
-	public void posiRetr(Scanner sc, List<EmployeeDTO> emplList) {
+	public void searchEmployeeByPosition(Scanner sc, List<EmployeeDTO> emplList) {
 
 
 		String position = null;
@@ -615,7 +679,7 @@ public class EmployeeMngCtrl implements InterEmployeeMngCtrl {
 
 	// 사원검색 메뉴 중 급여범위 검색 메서드
 	@Override
-	public void salaryRetr(Scanner sc, List<EmployeeDTO> emplList) {
+	public void searchEmployeeBySalary(Scanner sc, List<EmployeeDTO> emplList) {
 
 		int nMinSalary = 0, nMaxSalary = 0;
 		
@@ -665,7 +729,7 @@ public class EmployeeMngCtrl implements InterEmployeeMngCtrl {
 
 	// 사원검색 메뉴 중 부서명으로 검색 메서드
 	@Override
-	public void dNameRetr(Scanner sc, List<EmployeeDTO> emplList) {
+	public void searchEmployeeByDname(Scanner sc, List<EmployeeDTO> emplList) {
 
 		String dName = null;
 		do {
@@ -703,4 +767,25 @@ public class EmployeeMngCtrl implements InterEmployeeMngCtrl {
 		
 	} // 사원검색 메뉴 중 부서명으로 검색 메서드 end
 
+	// 사원 검색 결과 출력 메서드
+	@Override
+	public void printEmployee(String title, List<EmployeeDTO> empList) {
+
+		if (empList.isEmpty()) {
+			System.out.println("검색하신 " + title + "에 해당하는 사원은 없습니다.");
+		}else {
+
+			System.out.println("===============================================================================================================");
+			System.out.println("아이디\t암호\t사원명\t생년월일\t\t나이\t주소\t\t직급\t급여\t\t부서번호\t부서명\t부서위치");
+			System.out.println("===============================================================================================================");
+			for (EmployeeDTO empl : empList) {
+				System.out.println(empl.getId() + "\t" + empl.printPw() +  "\t" + empl.getName() + "\t" + empl.getbDay() + "\t" + empl.getAge() + "세\t" + empl.getAddress() 
+				+ "\t" + empl.getPosition() + "\t" + empl.getSalaryComma(empl.getSalary()) + "\t" + empl.getDeptDto().getDeptNo() + "\t" + empl.getDeptDto().getDeptName() + "\t" + empl.getDeptDto().getDeptLoc());
+			}
+		}
+		
+	} // 사원 검색 결과 출력 메서드 end
+	
+	
+	
 }

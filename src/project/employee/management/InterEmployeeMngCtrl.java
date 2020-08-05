@@ -17,6 +17,8 @@ public interface InterEmployeeMngCtrl {
 	// 로그인 하기
 	EmployeeDTO login(Scanner sc);
 	
+	/////////////////////////////////////////////////////////////////////
+	
 	// 로그인된 후 사원관리 메뉴 
 	void employeeMenu(Scanner sc, EmployeeDTO loginEmp);
 	
@@ -26,25 +28,30 @@ public interface InterEmployeeMngCtrl {
 	// 사원관리 메뉴 중 3번 모든 사원 정보보기 메서드
 	void showAllEmployee();
 	
-	// 사원관리 메뉴 중 4번 사원검색 메뉴 
-	void emplRetrieving(Scanner sc, EmployeeDTO loginEmp);
+	// 사원관리 메뉴 중 사원사직시키기 메서드 (사장님으로 로그인 했을때만 가능하도록.) 
+	void deleteEmployee(EmployeeDTO loginEmp, Scanner sc);
 	
-	// 사원관리 메뉴 중 사원사직시키기 메서드
-	void A;
+	//////////////////////////////////////////////////////////////////////
+	
+	// 사원관리 메뉴 중 4번 사원검색 메뉴 
+	void searchEmployeeMenu(Scanner sc, EmployeeDTO loginEmp);
+	
+	// 사원 검색 결과 출력 메서드
+	void printEmployee(String title, List<EmployeeDTO> empList);
 	
 	// 사원검색 메뉴 중 사원명 검색 메서드
-	void nameRetr(Scanner sc, List<EmployeeDTO> emplList);
+	void searchEmployeeByName(Scanner sc, List<EmployeeDTO> emplList);
 
 	// 사원검색 메뉴 중 연령대 검색 메서드
-	void ageRetr(Scanner sc, List<EmployeeDTO> emplList);
+	void searchEmployeeByAge(Scanner sc, List<EmployeeDTO> emplList);
 
 	// 사원검색 메뉴 중 직급 검색 메서드
-	void posiRetr(Scanner sc, List<EmployeeDTO> emplList);
+	void searchEmployeeByPosition(Scanner sc, List<EmployeeDTO> emplList);
 
 	// 사원검색 메뉴 중 급여범위 검색 메서드
-	void salaryRetr(Scanner sc, List<EmployeeDTO> emplList);
+	void searchEmployeeBySalary(Scanner sc, List<EmployeeDTO> emplList);
 	
 	// 사원검색 메뉴 중 부서명으로 검색 메서드
-	void dNameRetr(Scanner sc, List<EmployeeDTO> emplList);
+	void searchEmployeeByDname(Scanner sc, List<EmployeeDTO> emplList);
 	
 }
