@@ -29,6 +29,9 @@ public interface InterEmployeeMngCtrl {
 	// 사원관리 메뉴 중 4번 사원검색 메뉴 
 	void emplRetrieving(Scanner sc, EmployeeDTO loginEmp);
 	
+	// 사원관리 메뉴 중 사원사직시키기 메서드
+	void A;
+	
 	// 사원검색 메뉴 중 사원명 검색 메서드
 	void nameRetr(Scanner sc, List<EmployeeDTO> emplList);
 
