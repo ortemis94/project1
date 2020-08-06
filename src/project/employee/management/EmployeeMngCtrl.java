@@ -431,12 +431,12 @@ public class EmployeeMngCtrl implements InterEmployeeMngCtrl {
 
 		System.out.println("\n>>> 모든사원 정보 출력 <<<");
 		System.out.println("===============================================================================================================");
-		System.out.println("아이디\t암호\t사원명\t생년월일\t\t나이\t주소\t\t직급\t급여\t\t부서번호\t부서명\t부서위치");
+		System.out.println("아이디\t    암호\t사원명\t    생년월일\t나이\t      주소\t\t직급\t      급여\t\t부서번호\t부서명\t부서위치");
 		System.out.println("===============================================================================================================");
 
 		for (EmployeeDTO empl  : emplList) {
 			System.out.println(empl.getId() + "\t" + empl.printPw() +  "\t" + empl.getName() + "\t" + empl.getbDay() + "\t" + empl.getAge() + "세\t" + empl.getAddress() 
-			+ "\t" + empl.getPosition() + "\t" + empl.getSalaryComma(empl.getSalary()) + "\t" + empl.getDeptDto().getDeptNo() + "\t" + empl.getDeptDto().getDeptName() + "\t" + empl.getDeptDto().getDeptLoc());
+			+ "\t" + empl.getPosition() + "\t" + empl.getSalaryComma(empl.getSalary()) + "\t  " + empl.getDeptDto().getDeptNo() + "\t" + empl.getDeptDto().getDeptName() + "\t   " + empl.getDeptDto().getDeptLoc());
 		}
 
 	} // 사원관리 메뉴 중 모든 사원 정보보기 메서드 end
@@ -571,10 +571,10 @@ public class EmployeeMngCtrl implements InterEmployeeMngCtrl {
 			if (empl.getName().equals(name)) { // 검색한 사원명이 리스트에 존재할 때
 				System.out.println("\n>>> 사원명 검색 <<<");
 				System.out.println("===============================================================================================================");
-				System.out.println("아이디\t암호\t사원명\t생년월일\t\t나이\t주소\t\t직급\t급여\t\t부서번호\t부서명\t부서위치");
+				System.out.println("아이디\t    암호\t사원명\t    생년월일\t나이\t      주소\t\t직급\t      급여\t\t부서번호\t부서명\t부서위치");
 				System.out.println("===============================================================================================================");
 				System.out.println(empl.getId() + "\t" + empl.printPw() +  "\t" + empl.getName() + "\t" + empl.getbDay() + "\t" + empl.getAge() + "세\t" + empl.getAddress() 
-				+ "\t" + empl.getPosition() + "\t" + empl.getSalaryComma(empl.getSalary()) + "\t" + empl.getDeptDto().getDeptNo() + "\t" + empl.getDeptDto().getDeptName() + "\t" + empl.getDeptDto().getDeptLoc());
+				+ "\t" + empl.getPosition() + "\t" + empl.getSalaryComma(empl.getSalary()) + "\t  " + empl.getDeptDto().getDeptNo() + "\t" + empl.getDeptDto().getDeptName() + "\t   " + empl.getDeptDto().getDeptLoc());
 				return; // 메서드를 빠져나가기.
 			}
 		} // for문 end
@@ -603,14 +603,6 @@ public class EmployeeMngCtrl implements InterEmployeeMngCtrl {
 		} while(true);
 
 		List<EmployeeDTO> answerList = new ArrayList<EmployeeDTO>(); // 검색 조건에 부합하는 계정(EmployeeDTO 객체)들을 넣을 ArrayList생성
-		System.out.println("===============================================================================================================");
-		System.out.println("아이디\t암호\t사원명\t생년월일\t\t나이\t주소\t\t직급\t급여\t\t부서번호\t부서명\t부서위치");
-		System.out.println("===============================================================================================================");
-
-		for (EmployeeDTO empl : answerList) {
-			System.out.println(empl.getId() + "\t" + empl.printPw() +  "\t" + empl.getName() + "\t" + empl.getbDay() + "\t" + empl.getAge() + "세\t" + empl.getAddress() 
-			+ "\t" + empl.getPosition() + "\t" + empl.getSalaryComma(empl.getSalary()) + "\t" + empl.getDeptDto().getDeptNo() + "\t" + empl.getDeptDto().getDeptName() + "\t" + empl.getDeptDto().getDeptLoc());
-		}
 		
 		for (EmployeeDTO empl : emplList) {
 			if (empl.getAge() >= nAge && empl.getAge() < (nAge+10)) {
@@ -621,15 +613,7 @@ public class EmployeeMngCtrl implements InterEmployeeMngCtrl {
 		if (answerList.isEmpty()) { // 검색 조건에 부합하는 사람이없어서 리스트가 비어있을 때
 			System.out.println(">>> 검색하신 연령대" + nAge + " 는(은) 존재하지 않습니다. <<<");
 		}else {						// 검색 조건에 부합하는 사람이있어서 리스트가 채워져 있을 때
-			System.out.println("\n>>> 연령대 검색 <<<");
-			System.out.println("===============================================================================================================");
-			System.out.println("아이디\t암호\t사원명\t생년월일\t\t나이\t주소\t\t직급\t급여\t\t부서번호\t부서명\t부서위치");
-			System.out.println("===============================================================================================================");
-
-			for (EmployeeDTO empl : answerList) {
-				System.out.println(empl.getId() + "\t" + empl.printPw() +  "\t" + empl.getName() + "\t" + empl.getbDay() + "\t" + empl.getAge() + "세\t" + empl.getAddress() 
-				+ "\t" + empl.getPosition() + "\t" + empl.getSalaryComma(empl.getSalary()) + "\t" + empl.getDeptDto().getDeptNo() + "\t" + empl.getDeptDto().getDeptName() + "\t" + empl.getDeptDto().getDeptLoc());
-			}
+			printEmployee("연령대", answerList);
 		}
 
 
@@ -664,15 +648,7 @@ public class EmployeeMngCtrl implements InterEmployeeMngCtrl {
 		if (answerList.isEmpty()) { // 검색 조건에 부합하는 사람이없어서 리스트가 비어있을 때
 			System.out.println(">>> 검색하신 직급은 존재하지 않습니다. <<<");
 		}else {						// 검색 조건에 부합하는 사람이있어서 리스트가 채워져 있을 때
-			System.out.println("\n>>> 직급 검색 <<<");
-			System.out.println("===============================================================================================================");
-			System.out.println("아이디\t암호\t사원명\t생년월일\t\t나이\t주소\t\t직급\t급여\t\t부서번호\t부서명\t부서위치");
-			System.out.println("===============================================================================================================");
-
-			for (EmployeeDTO empl : answerList) {
-				System.out.println(empl.getId() + "\t" + empl.printPw() +  "\t" + empl.getName() + "\t" + empl.getbDay() + "\t" + empl.getAge() + "세\t" + empl.getAddress() 
-				+ "\t" + empl.getPosition() + "\t" + empl.getSalaryComma(empl.getSalary()) + "\t" + empl.getDeptDto().getDeptNo() + "\t" + empl.getDeptDto().getDeptName() + "\t" + empl.getDeptDto().getDeptLoc());
-			}
+			printEmployee("직급", answerList);
 		}
 
 	} // 사원 검색 메뉴 중 직급으로 검색 메서드 end
@@ -711,7 +687,7 @@ public class EmployeeMngCtrl implements InterEmployeeMngCtrl {
 			System.out.println(">>> 검색하신 급여범위에 해당하는 사원은 존재하지 않습니다. <<<");
 		}else {						// 검색 조건에 부합하는 사람이있어서 리스트가 채워져 있을 때
 
-			DecimalFormat df = new DecimalFormat("#,###");
+/*			DecimalFormat df = new DecimalFormat("#,###");
 			
 			System.out.println("\n>>> 급여범위 검색[" + df.format(nMinSalary) +"원 ~ "+ df.format(nMaxSalary) + "원]<<<");
 			System.out.println("===============================================================================================================");
@@ -721,7 +697,11 @@ public class EmployeeMngCtrl implements InterEmployeeMngCtrl {
 			for (EmployeeDTO empl : answerList) {
 				System.out.println(empl.getId() + "\t" + empl.printPw() +  "\t" + empl.getName() + "\t" + empl.getbDay() + "\t" + empl.getAge() + "세\t" + empl.getAddress() 
 				+ "\t" + empl.getPosition() + "\t" + empl.getSalaryComma(empl.getSalary()) + "\t" + empl.getDeptDto().getDeptNo() + "\t" + empl.getDeptDto().getDeptName() + "\t" + empl.getDeptDto().getDeptLoc());
-			}
+			}*/
+			
+			DecimalFormat df = new DecimalFormat("#,###");
+
+			printEmployee("급여범위 [" + df.format(nMinSalary) + "원 ~ " + df.format(nMaxSalary) + "원]", answerList);
 		}
 		
 	} // 사원검색 메뉴 중 급여범위 검색 메서드 end
@@ -754,15 +734,7 @@ public class EmployeeMngCtrl implements InterEmployeeMngCtrl {
 		if (answerList.isEmpty()) { // 검색 조건에 부합하는 사람이없어서 리스트가 비어있을 때
 			System.out.println(">>> 검색하신 " + dName + " 는(은) 존재하지 않습니다. <<<");
 		}else { 					// 검색 조건에 부합하는 사람이있어서 리스트가 채워져 있을 때
-			System.out.println("\n>>> 부서명 검색 <<<");
-			System.out.println("===============================================================================================================");
-			System.out.println("아이디\t암호\t사원명\t생년월일\t\t나이\t주소\t\t직급\t급여\t\t부서번호\t부서명\t부서위치");
-			System.out.println("===============================================================================================================");
-
-			for (EmployeeDTO empl : answerList) {
-				System.out.println(empl.getId() + "\t" + empl.printPw() +  "\t" + empl.getName() + "\t" + empl.getbDay() + "\t" + empl.getAge() + "세\t" + empl.getAddress() 
-				+ "\t" + empl.getPosition() + "\t" + empl.getSalaryComma(empl.getSalary()) + "\t" + empl.getDeptDto().getDeptNo() + "\t" + empl.getDeptDto().getDeptName() + "\t" + empl.getDeptDto().getDeptLoc());
-			}
+			printEmployee("부서명", answerList);
 		}
 		
 	} // 사원검색 메뉴 중 부서명으로 검색 메서드 end
@@ -771,19 +743,14 @@ public class EmployeeMngCtrl implements InterEmployeeMngCtrl {
 	@Override
 	public void printEmployee(String title, List<EmployeeDTO> empList) {
 
-		if (empList.isEmpty()) {
-			System.out.println("검색하신 " + title + "에 해당하는 사원은 없습니다.");
-		}else {
-
+			System.out.println("\n>>> " + title + " 검색 <<<");
 			System.out.println("===============================================================================================================");
-			System.out.println("아이디\t암호\t사원명\t생년월일\t\t나이\t주소\t\t직급\t급여\t\t부서번호\t부서명\t부서위치");
+			System.out.println("아이디\t    암호\t사원명\t    생년월일\t나이\t      주소\t\t직급\t      급여\t\t부서번호\t부서명\t부서위치");
 			System.out.println("===============================================================================================================");
-			for (EmployeeDTO empl : empList) {
+			for (EmployeeDTO empl  : empList) {
 				System.out.println(empl.getId() + "\t" + empl.printPw() +  "\t" + empl.getName() + "\t" + empl.getbDay() + "\t" + empl.getAge() + "세\t" + empl.getAddress() 
-				+ "\t" + empl.getPosition() + "\t" + empl.getSalaryComma(empl.getSalary()) + "\t" + empl.getDeptDto().getDeptNo() + "\t" + empl.getDeptDto().getDeptName() + "\t" + empl.getDeptDto().getDeptLoc());
+				+ "\t" + empl.getPosition() + "\t" + empl.getSalaryComma(empl.getSalary()) + "\t  " + empl.getDeptDto().getDeptNo() + "\t" + empl.getDeptDto().getDeptName() + "\t   " + empl.getDeptDto().getDeptLoc());
 			}
-		}
-		
 	} // 사원 검색 결과 출력 메서드 end
 	
 	
