@@ -566,23 +566,22 @@ public class EmployeeMngCtrl implements InterEmployeeMngCtrl {
 				break;
 			} // else문 end
 		}while(true);
+		
+		List<EmployeeDTO> answerList = new ArrayList<EmployeeDTO>(); // 검색 조건에 부합하는 계정(EmployeeDTO 객체)들을 넣을 ArrayList생성
 
 		for (EmployeeDTO empl : emplList) {
 			if (empl.getName().equals(name)) { // 검색한 사원명이 리스트에 존재할 때
-				System.out.println("\n>>> 사원명 검색 <<<");
-				System.out.println("===============================================================================================================");
-				System.out.println("아이디\t    암호\t사원명\t    생년월일\t나이\t      주소\t\t직급\t      급여\t\t부서번호\t부서명\t부서위치");
-				System.out.println("===============================================================================================================");
-				System.out.println(empl.getId() + "\t" + empl.printPw() +  "\t" + empl.getName() + "\t" + empl.getbDay() + "\t" + empl.getAge() + "세\t" + empl.getAddress() 
-				+ "\t" + empl.getPosition() + "\t" + empl.getSalaryComma(empl.getSalary()) + "\t  " + empl.getDeptDto().getDeptNo() + "\t" + empl.getDeptDto().getDeptName() + "\t   " + empl.getDeptDto().getDeptLoc());
-				return; // 메서드를 빠져나가기.
+				answerList.add(empl); // 새로운 리스트에 해당 사원 정보 저장.
 			}
 		} // for문 end
 
-		System.out.println(">>> 검색하신 " + name + " 는(은) 존재하지 않습니다. <<<"); // 검색한 사원명이 리스트에 존재하지 않았을 때
-
+		if (answerList.isEmpty()) { // 검색 조건에 부합하는 사람이없어서 리스트가 비어있을 때
+			System.out.println(">>> 검색하신 " + name + " 는(은) 존재하지 않습니다. <<<");
+		}else {						// 검색 조건에 부합하는 사람이있어서 리스트가 채워져 있을 때
+			printEmployee("사원명", answerList);
+		}
 	} // 사원 검색 메뉴 중 사원명으로 검색 메서드 end
-
+	
 	// 사원 검색 메뉴 중 연령대로 검색 메서드
 	@Override
 	public void searchEmployeeByAge(Scanner sc, List<EmployeeDTO> emplList) {
