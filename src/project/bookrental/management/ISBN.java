@@ -1,17 +1,17 @@
 package project.bookrental.management;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 // 도서정보
 public class ISBN implements Serializable{
 
-	private static final long serialVersionUID = 924256323465166247L;
-	
-	private String bISBN; 	// 국제표준도서번호
-	private String bKind;	// 도서분류카테고리
-	private String bName;	// 도서명
-	private String bAuthor;	// 작가명
-	private String bCompany;// 출판사
-	private int bPrice;		// 가격
+	private static final long serialVersionUID = -4893483357510572206L;
+	private String bISBN; 		// 국제표준도서번호
+	private String bKind;		// 도서분류카테고리
+	private String bName;		// 도서명
+	private String bAuthor;		// 작가명
+	private String bCompany;	// 출판사
+	private int bPrice;			// 가격
 	
 	public ISBN() {}
 	
@@ -86,6 +86,10 @@ public class ISBN implements Serializable{
 		this.bPrice = bPrice;
 	}
 
+	public String getPriceComma() {
+		DecimalFormat df = new DecimalFormat("#,###");
+		return df.format(bPrice) + "원";
+	}
 
 	@Override
 	public String toString() {

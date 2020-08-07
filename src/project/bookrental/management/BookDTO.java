@@ -4,10 +4,11 @@ import java.io.Serializable;
 // 개별도서
 public class BookDTO implements Serializable{
 
-	private static final long serialVersionUID = -4748319992166562644L;
-	
-	private String bId; 	// 개별도서번호 (ex) -001,-002)
-	private ISBN isbn;		//  
+	private static final long serialVersionUID = -2407392580935446793L;
+	private ISBN isbn;			// 도서정보
+	private String bId; 		// 개별도서번호 (ex) 국제표준도서번호-001,국제표준도서번호-002)
+	private boolean state;   		// 대여상태
+
 	
 	public BookDTO() {}
 
@@ -15,6 +16,7 @@ public class BookDTO implements Serializable{
 		super();
 		this.bId = bId;
 		this.isbn = isbn;
+		this.state = true;
 	}
 
 	public String getbId() {
@@ -36,8 +38,17 @@ public class BookDTO implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
 
+	public boolean isState() {
+		return state;
+	}
+
+	public void setState(boolean state) {
+		this.state = state;
+	}
 	
-	
+	public String getBookState() {
+		if (state == true) return "비치중";
+		else return "대여중";
+	}
 }
