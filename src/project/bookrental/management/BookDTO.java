@@ -7,8 +7,8 @@ public class BookDTO implements Serializable{
 	private static final long serialVersionUID = -2407392580935446793L;
 	private ISBN isbn;			// 도서정보
 	private String bId; 		// 개별도서번호 (ex) 국제표준도서번호-001,국제표준도서번호-002)
-	private boolean state;   		// 대여상태
-
+	private boolean state;   	// 대여상태
+	private String statue;
 	
 	public BookDTO() {}
 
@@ -17,6 +17,7 @@ public class BookDTO implements Serializable{
 		this.bId = bId;
 		this.isbn = isbn;
 		this.state = true;
+		this.statue = "비치중";
 	}
 
 	public String getbId() {
@@ -51,4 +52,16 @@ public class BookDTO implements Serializable{
 		if (state == true) return "비치중";
 		else return "대여중";
 	}
+
+	public String getStatue() {
+		return statue;
+	}
+
+	public void setStatue(String statue) {
+		this.statue = statue;
+	}
+	
+	
+	
+	
 }

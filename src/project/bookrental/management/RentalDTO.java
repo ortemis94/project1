@@ -48,7 +48,7 @@ public class RentalDTO implements Serializable{
 		Calendar calendar = new GregorianCalendar(Locale.KOREA);	// 
 		
 		calendar.setTime(new Date());
-		// calendar.add(Calendar.DAY_OF_YEAR, -5); // 현재날짜로부터 5일을 뺀다.
+		calendar.add(Calendar.DAY_OF_YEAR, -5); // 현재날짜로부터 5일을 뺀다.
 		
 		this.rentalDate = sdf.format(calendar.getTime());
 	}
@@ -70,7 +70,8 @@ public class RentalDTO implements Serializable{
 			
 			calendar.add(Calendar.DAY_OF_YEAR, 3); 		// 3일 뒤로 더하여 저장.
 			
-			this.returnDate = sdf.format(calendar);
+			this.returnDate = sdf.format(calendar.getTime());
+			
 		} catch (ParseException e) {
 			System.out.println("형식이 맞지 않습니다.");
 			e.printStackTrace();
@@ -98,8 +99,28 @@ public class RentalDTO implements Serializable{
 		return arrear;
 	}
 
-	public void setArrear(int arrear) {
-		this.arrear = arrear;
+	public void setArrear() {
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+		Calendar today = new GregorianCalendar(Locale.KOREA);
+
+		today.setTime(new Date());
+		
+		Calendar rDay = new GregorianCalendar(Locale.KOREA);
+		try {
+			rDay.setTime(sdf.parse(returnDate));
+			long calDate = (today.getTimeInMillis() - rDay.getTimeInMillis()) / 1000;
+			long calD = calDate / (24*60*60);
+			
+			if (calD > 0) {
+				this.arrear = (int)calD * 100;
+			}else {
+				this.arrear = 0;
+			}
+		} catch (ParseException e) {
+			System.out.println("형식이 맞지 않습니다.");
+		}
 	}
 
 	public static long getSerialversionuid() {
